@@ -54,9 +54,8 @@ In the process try and cover the following:
 
 
 ```ruby
-      success_charge = double() # empty object instance
-      expect(success_charge).to receive(:id).and_return(23445) # id method
-      expect(Stripe::Charge).to receive(:create).and_return(success_charge) # fake #create on Stripe::Charge that returns the above
-      transaction = Transaction.new(20, '4111111111111111') # good card
-      expect(transaction.charge).to eq(23445)
+  fake_charge = double(id: "ch_fdsasafsa") # using RSpec's mocking
+  expect(Stripe::Charge).to receive(:create).and_return(fake_charge)
+  t = Transaction.new(1_000, '4111111111111111')
+  expect(t.charge).to be(true)
 ```
